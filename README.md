@@ -48,7 +48,7 @@ The below example assumes the Deployment Environment name is `staging` and conta
 ```yaml
 - name: Staging Environment Variables
   id: staging-env-vars
-  uses: raven-actions/environment-variables@v1
+  uses: raven-actions/environment-variables@v2
   with:
     github-token: ${{ secrets.MY_GH_TOKEN }}
     environment: staging
@@ -58,19 +58,19 @@ In the subsequence step, you can use variables in two ways.
 
 1. as `action outputs`, where the output name is the variable key.
 
-    ```yaml
-    - run: |
-        echo "${{ steps.staging-env-vars.outputs.MY_VAR1 }}"
-        echo "${{ steps.staging-env-vars.outputs.FOOBAR }}"
-    ```
+   ```yaml
+   - run: |
+       echo "${{ steps.staging-env-vars.outputs.MY_VAR1 }}"
+       echo "${{ steps.staging-env-vars.outputs.FOOBAR }}"
+   ```
 
 1. as `environment variables`, where the env name is the variable key.
 
-    ```yaml
-    - run: |
-        echo "${{ env.MY_VAR1 }}"
-        echo "${FOOBAR}"
-    ```
+   ```yaml
+   - run: |
+       echo "${{ env.MY_VAR1 }}"
+       echo "${FOOBAR}"
+   ```
 
 Whatever method you choose the output will be:
 
@@ -83,13 +83,14 @@ Abc123
 
 ## 📥 Inputs
 
-|      Name      |   Type   | Required | Default             | Description                                                                                                                                                                                                               |
-|:--------------:|:--------:|:--------:|:--------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `github-token` | `string` |  `true`  | *not set*           | GitHub token to use for API authentication with `environment:read`. scope.                                                                                                                                                |
-| `environment`  | `string` |  `true`  | *not set*           | Deployment Environment name.                                                                                                                                                                                              |
-|  `output-to`   | `string` | `false`  | `all`               | Output type. One of:<br/>- `action` returns variables as action output<br/>- `env` returns variables as environment variables<br/>- `all` action output + envvars.                                                        |
-|  `env-prefix`  | `string` | `false`  | *not set*           | Prefix for environment variables. Environment variables prefix will be upper-cased and striped from any special characters. A double underscore `__` is placed between environment prefix and env name (`MYPREFIX__VAR`). |
-|  `repository`  | `string` | `false`  | `github.repository` | To fetch variables from Deployment Environment placed in different repository, set full repository name in the `owner/repo` format.                                                                                       |
+|      Name      |   Type    | Required |       Default       | Description                                                                                                                                                                                                               |
+|:--------------:|:---------:|:--------:|:-------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `github-token` | `string`  |  `true`  |      _not set_      | GitHub token to use for API authentication with `environment:read`. scope.                                                                                                                                                |
+| `environment`  | `string`  |  `true`  |      _not set_      | Deployment Environment name.                                                                                                                                                                                              |
+|  `output-to`   | `string`  | `false`  |        `all`        | Output type. One of:<br/>- `action` returns variables as action output<br/>- `env` returns variables as environment variables<br/>- `all` action output + envvars.                                                        |
+|  `env-prefix`  | `string`  | `false`  |      _not set_      | Prefix for environment variables. Environment variables prefix will be upper-cased and striped from any special characters. A double underscore `__` is placed between environment prefix and env name (`MYPREFIX__VAR`). |
+|  `repository`  | `string`  | `false`  | `github.repository` | To fetch variables from Deployment Environment placed in different repository, set full repository name in the `owner/repo` format.                                                                                       |
+|   `dry-run`    | `boolean` | `false`  |       `false`       | Whether or not to actually perform operation. Set to `true` for testing. Will not set outputs/envvars - just log entries.                                                                                                 |
 
 ## 📤 Outputs
 
